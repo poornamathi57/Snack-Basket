@@ -1,0 +1,1767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SNACK BASKET | Every Craving. One Basket.</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Plus Jakarta Sans & Playfair Display -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              orange: '#FF5722',
+              hoverOrange: '#E64A19',
+              cream: '#FFF8F0',
+              creamDark: '#F7EDE2',
+              brown: '#2C1A1D',
+              brownLight: '#4A3337',
+              accent: '#FFB300',
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+            serif: ['Playfair Display', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #FFF8F0;
+      color: #2C1A1D;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #FFF8F0;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #E0D5C1;
+      border-radius: 9999px;
+    }
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-brand-orange selection:text-white">
+
+  <!-- TOP NOTICE BAR -->
+  <div class="bg-brand-brown text-amber-200 text-xs py-1.5 px-4 text-center font-medium flex justify-between items-center px-6">
+    <div class="hidden sm:block">📍 Delivering across <strong>Chennai</strong> (T. Nagar, Adyar, Velachery, Anna Nagar, Nungambakkam)</div>
+    <div class="mx-auto sm:mx-0 flex items-center gap-3">
+      <span>🚀 Instant 30-Min Delivery Guarantee</span>
+      <span class="text-xs bg-brand-orange text-white px-2 py-0.5 rounded-full uppercase font-bold text-[10px]">Active</span>
+    </div>
+    <div class="hidden md:flex gap-4 text-xs text-amber-100/80">
+      <button onclick="switchRole('customer')" class="hover:text-white underline">Customer Portal</button>
+      <button onclick="switchRole('vendor')" class="hover:text-white underline">Vendor Dashboard</button>
+      <button onclick="switchRole('admin')" class="hover:text-white underline">Admin Panel</button>
+    </div>
+  </div>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-orange-100 shadow-sm transition-all duration-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+      
+      <!-- LOGO -->
+      <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
+        <div class="w-12 h-12 bg-gradient-to-tr from-brand-orange to-amber-500 rounded-2xl flex items-center justify-center text-white shadow-md shadow-orange-500/20 transform hover:scale-105 transition">
+          <i class="fa-solid font-bold fa-basket-shopping text-2xl"></i>
+        </div>
+        <div>
+          <span class="font-extrabold text-2xl tracking-tight text-brand-brown flex items-center gap-1">
+            SNACK <span class="text-brand-orange">BASKET</span>
+          </span>
+          <p class="text-[10px] font-semibold text-brand-brown/60 tracking-wider uppercase -mt-1">Every Craving. One Basket.</p>
+        </div>
+      </div>
+
+      <!-- LOCATION SELECTOR (Chennai Hubs) -->
+      <div class="hidden lg:flex items-center gap-2 bg-brand-cream border border-orange-200/60 px-3 py-2 rounded-xl text-xs font-semibold text-brand-brown hover:border-brand-orange transition cursor-pointer" onclick="openLocationModal()">
+        <i class="fa-solid fa-location-dot text-brand-orange text-base"></i>
+        <div>
+          <span class="text-[10px] text-gray-500 block leading-tight font-normal">Deliver to:</span>
+          <span id="current-location-text" class="font-bold flex items-center gap-1">
+            T. Nagar, Chennai <i class="fa-solid fa-chevron-down text-[10px] text-gray-400"></i>
+          </span>
+        </div>
+      </div>
+
+      <!-- ROLE SELECTOR / NAVIGATION MENU -->
+      <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-brand-brown">
+        <button onclick="navigateTo('home')" class="hover:text-brand-orange transition-colors py-1 border-b-2 border-transparent hover:border-brand-orange">Home</button>
+        <button onclick="navigateTo('restaurants')" class="hover:text-brand-orange transition-colors py-1 border-b-2 border-transparent hover:border-brand-orange">Restaurants</button>
+        <button onclick="navigateTo('categories')" class="hover:text-brand-orange transition-colors py-1 border-b-2 border-transparent hover:border-brand-orange">Categories</button>
+        <button onclick="navigateTo('track-order')" class="hover:text-brand-orange transition-colors py-1 border-b-2 border-transparent hover:border-brand-orange flex items-center gap-1">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          Track Order
+        </button>
+      </nav>
+
+      <!-- USER ACTIONS & CART -->
+      <div class="flex items-center gap-3">
+        <!-- View Switcher Dropdown (Role toggle) -->
+        <div class="relative group">
+          <button class="bg-amber-100/70 border border-amber-300 text-brand-brown px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 hover:bg-amber-200 transition">
+            <i class="fa-solid fa-sliders text-brand-orange"></i>
+            <span id="current-role-label">Customer View</span>
+            <i class="fa-solid fa-chevron-down text-[10px]"></i>
+          </button>
+          <div class="absolute right-0 top-full mt-1 w-48 bg-white border border-gray-100 rounded-xl shadow-xl py-1 hidden group-hover:block z-50">
+            <a href="#" onclick="switchRole('customer')" class="block px-4 py-2 text-xs font-medium text-gray-700 hover:bg-orange-50 hover:text-brand-orange">Customer Mode</a>
+            <a href="#" onclick="switchRole('vendor')" class="block px-4 py-2 text-xs font-medium text-gray-700 hover:bg-orange-50 hover:text-brand-orange">Vendor Dashboard</a>
+            <a href="#" onclick="switchRole('admin')" class="block px-4 py-2 text-xs font-medium text-gray-700 hover:bg-orange-50 hover:text-brand-orange">Super Admin Panel</a>
+            <div class="border-t border-gray-100 my-1"></div>
+            <a href="#" onclick="openModal('db-schema-modal')" class="block px-4 py-2 text-xs font-medium text-purple-700 hover:bg-purple-50"><i class="fa-solid fa-database mr-1"></i> Supabase Schema</a>
+          </div>
+        </div>
+
+        <!-- Cart Button -->
+        <button onclick="toggleCartDrawer()" class="relative p-2.5 bg-brand-orange text-white rounded-xl shadow-lg shadow-orange-500/20 hover:bg-brand-hoverOrange transition flex items-center gap-2">
+          <i class="fa-solid fa-basket-shopping text-lg"></i>
+          <span class="text-xs font-bold hidden sm:inline" id="cart-btn-text">₹0</span>
+          <span id="cart-count-badge" class="absolute -top-2 -right-2 bg-brand-brown text-white text-[11px] font-black w-5 h-5 rounded-full flex items-center justify-center border-2 border-white">0</span>
+        </button>
+
+        <!-- Profile/Auth Button -->
+        <div id="auth-btn-container">
+          <button onclick="navigateTo('auth')" class="p-2.5 bg-brand-cream border border-orange-200 text-brand-brown hover:text-brand-orange rounded-xl font-medium text-xs flex items-center gap-1.5 hover:bg-orange-100 transition">
+            <i class="fa-solid fa-user text-sm"></i>
+            <span class="hidden sm:inline font-bold">Sign In</span>
+          </button>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-brand-brown text-xl">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Nav Sub-menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-orange-100 px-4 py-3 space-y-2">
+      <button onclick="navigateTo('home')" class="block w-full text-left py-2 text-sm font-semibold text-brand-brown border-b border-gray-50">Home</button>
+      <button onclick="navigateTo('restaurants')" class="block w-full text-left py-2 text-sm font-semibold text-brand-brown border-b border-gray-50">Restaurants</button>
+      <button onclick="navigateTo('categories')" class="block w-full text-left py-2 text-sm font-semibold text-brand-brown border-b border-gray-50">Categories</button>
+      <button onclick="navigateTo('track-order')" class="block w-full text-left py-2 text-sm font-semibold text-brand-brown border-b border-gray-50">Track Active Order</button>
+      <button onclick="navigateTo('profile')" class="block w-full text-left py-2 text-sm font-semibold text-brand-brown">My Profile & Orders</button>
+    </div>
+  </header>
+
+  <!-- MAIN DYNAMIC CONTENT CONTAINER -->
+  <main id="app-container" class="flex-grow">
+    <!-- View content gets injected dynamically by JavaScript -->
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-brand-brown text-amber-100/80 pt-12 pb-8 border-t border-brand-brownLight mt-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        <div class="space-y-4">
+          <div class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-brand-orange rounded-xl flex items-center justify-center text-white font-bold">
+              <i class="fa-solid fa-basket-shopping text-xl"></i>
+            </div>
+            <span class="font-extrabold text-2xl text-white tracking-tight">SNACK BASKET</span>
+          </div>
+          <p class="text-xs text-amber-100/60 leading-relaxed">
+            Chennai's premier multi-vendor snack & bakery delivery platform. Delivering hot puffs, fresh rolls, cheesy momos, crispy waffles and bakery delicacies directly to your doorstep in 30 minutes.
+          </p>
+          <div class="flex gap-3 text-lg text-brand-orange">
+            <a href="#" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand-orange hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand-orange hover:text-white transition"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand-orange hover:text-white transition"><i class="fa-brands fa-twitter"></i></a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider text-amber-400">Snack Categories</h4>
+          <ul class="space-y-2 text-xs font-medium">
+            <li><a href="#" onclick="selectCategory('Puffs'); navigateTo('categories')" class="hover:text-brand-orange transition">Crispy Puffs & Flaky Pastries</a></li>
+            <li><a href="#" onclick="selectCategory('Rolls'); navigateTo('categories')" class="hover:text-brand-orange transition">Kathi & Franky Rolls</a></li>
+            <li><a href="#" onclick="selectCategory('Sandwiches'); navigateTo('categories')" class="hover:text-brand-orange transition">Grilled & Club Sandwiches</a></li>
+            <li><a href="#" onclick="selectCategory('Momos'); navigateTo('categories')" class="hover:text-brand-orange transition">Steamed & Fried Momos</a></li>
+            <li><a href="#" onclick="selectCategory('Waffles'); navigateTo('categories')" class="hover:text-brand-orange transition">Belgian Waffles & Crepes</a></li>
+            <li><a href="#" onclick="selectCategory('Pav Specials'); navigateTo('categories')" class="hover:text-brand-orange transition">Vada Pav & Pav Bhaji</a></li>
+            <li><a href="#" onclick="selectCategory('Bakery'); navigateTo('categories')" class="hover:text-brand-orange transition">Fresh Breads & Cakes</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider text-amber-400">Chennai Express Hubs</h4>
+          <ul class="space-y-2 text-xs font-medium">
+            <li><span class="text-white/90">📍 T. Nagar & Mambalam</span></li>
+            <li><span class="text-white/90">📍 Adyar & Besant Nagar</span></li>
+            <li><span class="text-white/90">📍 Velachery & OMR Hub</span></li>
+            <li><span class="text-white/90">📍 Anna Nagar & Kilpauk</span></li>
+            <li><span class="text-white/90">📍 Nungambakkam & Egmore</span></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-bold text-sm mb-4 uppercase tracking-wider text-amber-400">Vendor & Partner</h4>
+          <p class="text-xs text-amber-100/60 mb-3">Own a snack corner or bakery in Chennai? Expand your business with Snack Basket.</p>
+          <button onclick="switchRole('vendor')" class="bg-gradient-to-r from-brand-orange to-amber-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl hover:shadow-lg transition w-full mb-3">
+            Partner With Us (Vendor Login)
+          </button>
+          <button onclick="openModal('db-schema-modal')" class="bg-white/10 hover:bg-white/20 text-white text-xs font-semibold px-4 py-2 rounded-xl transition w-full text-center flex items-center justify-center gap-2">
+            <i class="fa-solid fa-code"></i> View Supabase Schema
+          </button>
+        </div>
+      </div>
+
+      <div class="border-t border-white/10 pt-6 flex flex-col sm:flex-row justify-between items-center text-xs text-amber-100/50 gap-4">
+        <p>© 2026 Snack Basket Technologies Pvt. Ltd. Chennai, Tamil Nadu. All rights reserved.</p>
+        <div class="flex gap-4">
+          <a href="#" class="hover:text-amber-300">Privacy Policy</a>
+          <a href="#" class="hover:text-amber-300">Terms of Service</a>
+          <a href="#" class="hover:text-amber-300">FSSAI Compliance</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CART SIDE DRAWER -->
+  <div id="cart-drawer" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 flex justify-end">
+    <div class="w-full max-w-md bg-white h-full flex flex-col shadow-2xl transform translate-x-full transition-transform duration-300" id="cart-drawer-panel">
+      <!-- Cart Header -->
+      <div class="p-4 bg-brand-cream border-b border-orange-100 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-basket-shopping text-brand-orange text-xl"></i>
+          <div>
+            <h3 class="font-extrabold text-brand-brown text-lg">Your Snack Basket</h3>
+            <p id="cart-vendor-name" class="text-xs text-gray-500 font-medium">No items added yet</p>
+          </div>
+        </div>
+        <button onclick="toggleCartDrawer()" class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-gray-500 hover:text-brand-orange shadow-sm">
+          <i class="fa-solid fa-xmark text-base"></i>
+        </button>
+      </div>
+
+      <!-- Cart Items List -->
+      <div id="cart-items-container" class="flex-grow overflow-y-auto p-4 space-y-4 custom-scrollbar">
+        <!-- Rendered via JS -->
+      </div>
+
+      <!-- Cart Footer / Checkout CTA -->
+      <div class="p-4 bg-white border-t border-gray-100 space-y-3 shadow-lg">
+        <div class="space-y-1.5 text-xs text-gray-600">
+          <div class="flex justify-between">
+            <span>Item Total</span>
+            <span id="cart-subtotal" class="font-semibold">₹0</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Delivery Fee (Chennai Central)</span>
+            <span id="cart-delivery-fee" class="font-semibold text-emerald-600">₹35</span>
+          </div>
+          <div class="flex justify-between">
+            <span>GST & Restaurant Packaging</span>
+            <span id="cart-taxes" class="font-semibold">₹15</span>
+          </div>
+          <div class="flex justify-between text-base font-extrabold text-brand-brown border-t border-dashed border-gray-200 pt-2 mt-2">
+            <span>To Pay</span>
+            <span id="cart-grand-total" class="text-brand-orange">₹0</span>
+          </div>
+        </div>
+
+        <button id="cart-checkout-btn" onclick="goToCheckout()" class="w-full bg-brand-orange hover:bg-brand-hoverOrange text-white font-bold py-3.5 rounded-xl shadow-lg shadow-orange-500/20 transition flex items-center justify-between px-5 disabled:opacity-50 disabled:cursor-not-allowed">
+          <span>Proceed to Checkout</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOD ITEM MODAL (CUSTOMIZATION / ADD TO BASKET) -->
+  <div id="product-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl transform transition-all border border-orange-100 flex flex-col max-h-[90vh]">
+      <div class="relative h-56 bg-brand-cream">
+        <img id="modal-item-image" src="" alt="Food" class="w-full h-full object-cover">
+        <button onclick="closeModal('product-modal')" class="absolute top-4 right-4 w-9 h-9 bg-white/90 rounded-full flex items-center justify-center text-gray-700 hover:text-brand-orange shadow-md">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <span id="modal-item-veg" class="absolute bottom-4 left-4 text-[10px] font-bold uppercase px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-800 border border-emerald-300">
+          🟢 100% VEG
+        </span>
+      </div>
+
+      <div class="p-6 overflow-y-auto flex-grow custom-scrollbar space-y-4">
+        <div>
+          <div class="flex justify-between items-start">
+            <h3 id="modal-item-title" class="font-extrabold text-xl text-brand-brown">Item Title</h3>
+            <span id="modal-item-price" class="font-black text-xl text-brand-orange">₹0</span>
+          </div>
+          <p id="modal-item-restaurant" class="text-xs font-semibold text-gray-500 mt-1">by Restaurant Name</p>
+          <p id="modal-item-desc" class="text-xs text-gray-600 mt-2 leading-relaxed">Delicious crispy food item crafted with fresh ingredients.</p>
+        </div>
+
+        <!-- Customizations -->
+        <div class="border-t border-gray-100 pt-4 space-y-3">
+          <h4 class="text-xs font-bold text-brand-brown uppercase tracking-wider">Spice Level & Add-ons</h4>
+          
+          <div class="space-y-2">
+            <label class="flex items-center justify-between text-xs p-2.5 rounded-xl border border-gray-100 hover:bg-orange-50/50 cursor-pointer">
+              <span class="flex items-center gap-2">
+                <input type="radio" name="spice" value="Medium Spice" checked class="text-brand-orange focus:ring-brand-orange">
+                <span class="font-medium text-gray-700">Medium Spicy (Standard)</span>
+              </span>
+              <span class="text-gray-400 font-medium">+₹0</span>
+            </label>
+            <label class="flex items-center justify-between text-xs p-2.5 rounded-xl border border-gray-100 hover:bg-orange-50/50 cursor-pointer">
+              <span class="flex items-center gap-2">
+                <input type="radio" name="spice" value="Extra Spicy" class="text-brand-orange focus:ring-brand-orange">
+                <span class="font-medium text-gray-700">Extra Spicy Chennai Style 🔥</span>
+              </span>
+              <span class="text-gray-400 font-medium">+₹0</span>
+            </label>
+          </div>
+
+          <h4 class="text-xs font-bold text-brand-brown uppercase tracking-wider pt-2">Extra Dips & Cheese</h4>
+          <div class="space-y-2">
+            <label class="flex items-center justify-between text-xs p-2.5 rounded-xl border border-gray-100 hover:bg-orange-50/50 cursor-pointer">
+              <span class="flex items-center gap-2">
+                <input type="checkbox" id="addon-cheese" class="text-brand-orange rounded focus:ring-brand-orange">
+                <span class="font-medium text-gray-700">Extra Melted Cheese Blend</span>
+              </span>
+              <span class="text-brand-brown font-bold">+₹30</span>
+            </label>
+            <label class="flex items-center justify-between text-xs p-2.5 rounded-xl border border-gray-100 hover:bg-orange-50/50 cursor-pointer">
+              <span class="flex items-center gap-2">
+                <input type="checkbox" id="addon-dip" class="text-brand-orange rounded focus:ring-brand-orange">
+                <span class="font-medium text-gray-700">Signature Mint Mayo Dip</span>
+              </span>
+              <span class="text-brand-brown font-bold">+₹20</span>
+            </label>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-brand-brown mb-1">Special Instructions</label>
+            <input type="text" id="modal-item-instructions" placeholder="e.g. Extra crispy, no mayo..." class="w-full bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-brand-orange outline-none">
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Footer -->
+      <div class="p-4 bg-gray-50 border-t border-gray-100 flex items-center justify-between gap-4">
+        <div class="flex items-center border border-gray-200 bg-white rounded-xl overflow-hidden p-1 shadow-sm">
+          <button onclick="updateModalQty(-1)" class="w-8 h-8 rounded-lg bg-gray-100 text-gray-700 font-bold hover:bg-gray-200 transition">-</button>
+          <span id="modal-qty" class="w-10 text-center font-extrabold text-sm text-brand-brown">1</span>
+          <button onclick="updateModalQty(1)" class="w-8 h-8 rounded-lg bg-brand-orange text-white font-bold hover:bg-brand-hoverOrange transition">+</button>
+        </div>
+
+        <button onclick="confirmAddToCart()" class="flex-grow bg-brand-orange hover:bg-brand-hoverOrange text-white font-bold py-3 px-6 rounded-xl shadow-lg shadow-orange-500/20 transition flex items-center justify-between">
+          <span>Add to Basket</span>
+          <span id="modal-total-btn-price">₹0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOCATION CHENNAI SELECTOR MODAL -->
+  <div id="location-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-orange-100">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="font-extrabold text-brand-brown text-lg flex items-center gap-2">
+          <i class="fa-solid fa-map-pin text-brand-orange"></i> Select Chennai Neighborhood
+        </h3>
+        <button onclick="closeModal('location-modal')" class="text-gray-400 hover:text-gray-600">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+      <p class="text-xs text-gray-500 mb-4">Choose your locality for precise 30-minute snack delivery.</p>
+      
+      <div class="space-y-2 max-h-60 overflow-y-auto custom-scrollbar pr-1">
+        <button onclick="setLocation('T. Nagar, Chennai')" class="w-full text-left p-3 rounded-xl border border-gray-100 hover:border-brand-orange hover:bg-orange-50 flex items-center justify-between transition">
+          <div>
+            <p class="font-bold text-xs text-brand-brown">T. Nagar & Mambalam</p>
+            <p class="text-[10px] text-gray-400">Hub 1 • 25-30 mins avg delivery</p>
+          </div>
+          <span class="text-brand-orange text-xs"><i class="fa-solid fa-chevron-right"></i></span>
+        </button>
+        <button onclick="setLocation('Adyar & Besant Nagar')" class="w-full text-left p-3 rounded-xl border border-gray-100 hover:border-brand-orange hover:bg-orange-50 flex items-center justify-between transition">
+          <div>
+            <p class="font-bold text-xs text-brand-brown">Adyar & Besant Nagar</p>
+            <p class="text-[10px] text-gray-400">Hub 2 • 20-30 mins avg delivery</p>
+          </div>
+          <span class="text-brand-orange text-xs"><i class="fa-solid fa-chevron-right"></i></span>
+        </button>
+        <button onclick="setLocation('Anna Nagar West')" class="w-full text-left p-3 rounded-xl border border-gray-100 hover:border-brand-orange hover:bg-orange-50 flex items-center justify-between transition">
+          <div>
+            <p class="font-bold text-xs text-brand-brown">Anna Nagar West & East</p>
+            <p class="text-[10px] text-gray-400">Hub 3 • 30-35 mins avg delivery</p>
+          </div>
+          <span class="text-brand-orange text-xs"><i class="fa-solid fa-chevron-right"></i></span>
+        </button>
+        <button onclick="setLocation('Velachery & OMR')" class="w-full text-left p-3 rounded-xl border border-gray-100 hover:border-brand-orange hover:bg-orange-50 flex items-center justify-between transition">
+          <div>
+            <p class="font-bold text-xs text-brand-brown">Velachery & OMR IT Corridor</p>
+            <p class="text-[10px] text-gray-400">Hub 4 • 25-35 mins avg delivery</p>
+          </div>
+          <span class="text-brand-orange text-xs"><i class="fa-solid fa-chevron-right"></i></span>
+        </button>
+        <button onclick="setLocation('Nungambakkam')" class="w-full text-left p-3 rounded-xl border border-gray-100 hover:border-brand-orange hover:bg-orange-50 flex items-center justify-between transition">
+          <div>
+            <p class="font-bold text-xs text-brand-brown">Nungambakkam & Egmore</p>
+            <p class="text-[10px] text-gray-400">Hub 5 • 15-25 mins avg delivery</p>
+          </div>
+          <span class="text-brand-orange text-xs"><i class="fa-solid fa-chevron-right"></i></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUPABASE DATABASE SCHEMA MODAL -->
+  <div id="db-schema-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden border border-purple-200">
+      <div class="p-5 bg-gradient-to-r from-purple-900 to-indigo-900 text-white flex justify-between items-center">
+        <div>
+          <h3 class="font-bold text-lg flex items-center gap-2">
+            <i class="fa-solid fa-database text-amber-400"></i> Supabase PostgreSQL Database Architecture & RLS Security
+          </h3>
+          <p class="text-xs text-purple-200">Production-ready database tables schema with Row-Level Security for multi-tenant isolation</p>
+        </div>
+        <button onclick="closeModal('db-schema-modal')" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 text-white">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      
+      <div class="p-6 overflow-y-auto space-y-6 text-xs text-gray-700 custom-scrollbar font-mono">
+        <!-- Tables Summary -->
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-3 font-sans text-center">
+          <div class="bg-purple-50 border border-purple-200 p-2.5 rounded-xl">
+            <p class="font-bold text-purple-900 text-sm">profiles</p>
+            <p class="text-[10px] text-purple-600">Users, Roles, Auth</p>
+          </div>
+          <div class="bg-purple-50 border border-purple-200 p-2.5 rounded-xl">
+            <p class="font-bold text-purple-900 text-sm">vendors</p>
+            <p class="text-[10px] text-purple-600">Restaurants & FSSAI</p>
+          </div>
+          <div class="bg-purple-50 border border-purple-200 p-2.5 rounded-xl">
+            <p class="font-bold text-purple-900 text-sm">products</p>
+            <p class="text-[10px] text-purple-600">Menu items, Price</p>
+          </div>
+          <div class="bg-purple-50 border border-purple-200 p-2.5 rounded-xl">
+            <p class="font-bold text-purple-900 text-sm">orders</p>
+            <p class="text-[10px] text-purple-600">Transactions & Status</p>
+          </div>
+          <div class="bg-purple-50 border border-purple-200 p-2.5 rounded-xl">
+            <p class="font-bold text-purple-900 text-sm">deliveries</p>
+            <p class="text-[10px] text-purple-600">Dispatch & Tracking</p>
+          </div>
+        </div>
+
+        <div class="bg-gray-900 text-emerald-400 p-4 rounded-xl space-y-4 overflow-x-auto text-[11px] leading-relaxed shadow-inner">
+          <p class="text-amber-400">// PostgreSQL Table Definitions for Snack Basket</p>
+          
+          <pre>
+-- 1. PROFILES & ROLES
+CREATE TYPE user_role AS ENUM ('customer', 'vendor', 'admin', 'delivery');
+
+CREATE TABLE profiles (
+  id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+  full_name TEXT NOT NULL,
+  phone TEXT UNIQUE NOT NULL,
+  role user_role DEFAULT 'customer',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 2. VENDORS (RESTAURANTS)
+CREATE TABLE vendors (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  owner_id UUID REFERENCES profiles(id),
+  restaurant_name TEXT NOT NULL,
+  area_locality TEXT NOT NULL,
+  address TEXT NOT NULL,
+  fssai_license TEXT NOT NULL,
+  commission_rate NUMERIC(4,2) DEFAULT 15.00,
+  is_verified BOOLEAN DEFAULT false,
+  is_active BOOLEAN DEFAULT true,
+  rating NUMERIC(2,1) DEFAULT 4.5,
+  banner_url TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 3. PRODUCTS (FOOD MENU ITEMS)
+CREATE TABLE products (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  vendor_id UUID REFERENCES vendors(id) ON DELETE CASCADE,
+  category_name TEXT NOT NULL, -- Puffs, Rolls, Momos, Waffles, etc.
+  name TEXT NOT NULL,
+  description TEXT,
+  price NUMERIC(8,2) NOT NULL,
+  image_url TEXT,
+  is_veg BOOLEAN DEFAULT true,
+  is_available BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 4. ORDERS & COMMISSIONS
+CREATE TABLE orders (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  customer_id UUID REFERENCES profiles(id),
+  vendor_id UUID REFERENCES vendors(id),
+  subtotal NUMERIC(8,2) NOT NULL,
+  delivery_fee NUMERIC(8,2) DEFAULT 35.00,
+  tax_amount NUMERIC(8,2) NOT NULL,
+  total_amount NUMERIC(8,2) NOT NULL,
+  vendor_commission NUMERIC(8,2) NOT NULL,
+  status TEXT CHECK (status IN ('placed', 'preparing', 'out_for_delivery', 'delivered', 'cancelled')) DEFAULT 'placed',
+  payment_status TEXT DEFAULT 'pending',
+  delivery_address TEXT NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- ROW LEVEL SECURITY (RLS) POLICIES
+ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
+
+-- Customers can view only their own orders
+CREATE POLICY customer_view_own_orders ON orders 
+  FOR SELECT USING (auth.uid() = customer_id);
+
+-- Vendors can view orders belonging to their restaurant
+CREATE POLICY vendor_view_own_orders ON orders 
+  FOR SELECT USING (
+    auth.uid() IN (SELECT owner_id FROM vendors WHERE id = orders.vendor_id)
+  );
+          </pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT APPLICATION CORE -->
+  <script>
+    // ==========================================
+    // 1. DATA STATE & MOCK DATABASE (CHENNAI MARKET)
+    // ==========================================
+
+    const CHENNAI_CATEGORIES = [
+      { id: 'puffs', name: 'Puffs', icon: 'fa-bread-slice', img: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=400&q=80', desc: 'Flaky & crispy classic Chennai style bakery puffs' },
+      { id: 'rolls', name: 'Rolls', icon: 'fa-scroll', img: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=400&q=80', desc: 'Kathi rolls stuffed with paneer, veggies & spiced fillings' },
+      { id: 'sandwiches', name: 'Sandwiches', icon: 'fa-burger', img: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=400&q=80', desc: 'Loaded grilled Bombay toasties & cheese club sandwiches' },
+      { id: 'momos', name: 'Momos', icon: 'fa-dumpster', img: 'https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?auto=format&fit=crop&w=400&q=80', desc: 'Hot steamed & kurkure fried dumplings with spicy dip' },
+      { id: 'waffles', name: 'Waffles', icon: 'fa-stroopwafel', img: 'https://images.unsplash.com/photo-1562376552-0d160a2f238d?auto=format&fit=crop&w=400&q=80', desc: 'Crispy Belgian waffles drenched in Nutella & chocolate' },
+      { id: 'pav', name: 'Pav Specials', icon: 'fa-hotdog', img: 'https://images.unsplash.com/photo-1606491956689-2ea866880c84?auto=format&fit=crop&w=400&q=80', desc: 'Butter Vada Pav, Misal Pav and Dabeli' },
+      { id: 'bakery', name: 'Bakery', icon: 'fa-cookie-bite', img: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=400&q=80', desc: 'Fresh oven breads, plum cakes & tea time butter biscuits' }
+    ];
+
+    const CHENNAI_RESTAURANTS = [
+      {
+        id: 'rest-1',
+        name: 'The Chennai Puff House',
+        locality: 'T. Nagar, Chennai',
+        rating: 4.8,
+        reviewsCount: 320,
+        prepTime: '20-25 min',
+        costForTwo: 250,
+        isVerified: true,
+        fssai: '12421020000189',
+        banner: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80',
+        tags: ['Puffs', 'Bakery', 'Tea Snacks']
+      },
+      {
+        id: 'rest-2',
+        name: 'Rolls & Co. Kathi Hub',
+        locality: 'Adyar, Chennai',
+        rating: 4.6,
+        reviewsCount: 185,
+        prepTime: '25-30 min',
+        costForTwo: 300,
+        isVerified: true,
+        fssai: '12421020000452',
+        banner: 'https://images.unsplash.com/photo-1561758033-d89a9ad46330?auto=format&fit=crop&w=800&q=80',
+        tags: ['Rolls', 'Sandwiches']
+      },
+      {
+        id: 'rest-3',
+        name: 'Momo Magic Workshop',
+        locality: 'Besant Nagar, Chennai',
+        rating: 4.9,
+        reviewsCount: 410,
+        prepTime: '15-25 min',
+        costForTwo: 200,
+        isVerified: true,
+        fssai: '12421020000998',
+        banner: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=800&q=80',
+        tags: ['Momos', 'Chinese']
+      },
+      {
+        id: 'rest-4',
+        name: 'Belgian Waffle Corner',
+        locality: 'Anna Nagar, Chennai',
+        rating: 4.7,
+        reviewsCount: 290,
+        prepTime: '20-30 min',
+        costForTwo: 350,
+        isVerified: true,
+        fssai: '12421020000311',
+        banner: 'https://images.unsplash.com/photo-1562376552-0d160a2f238d?auto=format&fit=crop&w=800&q=80',
+        tags: ['Waffles', 'Desserts']
+      }
+    ];
+
+    const SAMPLE_PRODUCTS = [
+      {
+        id: 'prod-101',
+        vendorId: 'rest-1',
+        vendorName: 'The Chennai Puff House',
+        category: 'Puffs',
+        name: 'Butter Veg Eggless Puff',
+        price: 45,
+        rating: 4.9,
+        isVeg: true,
+        isAvailable: true,
+        image: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=400&q=80',
+        description: 'Golden flaky puff pastry stuffed with spiced potato and green peas masala.'
+      },
+      {
+        id: 'prod-102',
+        vendorId: 'rest-1',
+        vendorName: 'The Chennai Puff House',
+        category: 'Puffs',
+        name: 'Paneer Tikka Puff Supreme',
+        price: 65,
+        rating: 4.8,
+        isVeg: true,
+        isAvailable: true,
+        image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=400&q=80',
+        description: 'Loaded paneer cubes roasted in tandoori spices wrapped in a crisp puff crust.'
+      },
+      {
+        id: 'prod-201',
+        vendorId: 'rest-2',
+        vendorName: 'Rolls & Co. Kathi Hub',
+        category: 'Rolls',
+        name: 'Cheesy Paneer Kathi Roll',
+        price: 130,
+        rating: 4.7,
+        isVeg: true,
+        isAvailable: true,
+        image: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=400&q=80',
+        description: 'Flaky paratha layered with spiced paneer, onions, capsicum, and liquid cheese.'
+      },
+      {
+        id: 'prod-202',
+        vendorId: 'rest-2',
+        vendorName: 'Rolls & Co. Kathi Hub',
+        category: 'Sandwiches',
+        name: 'Classic Bombay Veg Grilled Toast Sandwich',
+        price: 110,
+        rating: 4.6,
+        isVeg: true,
+        isAvailable: true,
+        image: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=400&q=80',
+        description: 'Triple-layer sandwich with potato masala, cucumber, tomato, mint chutney, and cheese.'
+      },
+      {
+        id: 'prod-301',
+        vendorId: 'rest-3',
+        vendorName: 'Momo Magic Workshop',
+        category: 'Momos',
+        name: 'Steamed Veg Corn & Cheese Momos (6 pcs)',
+        price: 140,
+        rating: 4.9,
+        isVeg: true,
+        isAvailable: true,
+        image: 'https://images.unsplash.com/photo-1625220194771-7ebdea0b70b9?auto=format&fit=crop&w=400&q=80',
+        description: 'Soft thin dumplings filled with sweet corn, cheese, and vegetables. Served with fiery red chili chutney.'
+      },
+      {
+        id: 'prod-302',
+        vendorId: 'rest-3',
+        vendorName: 'Momo Magic Workshop',
+        category: 'Momos',
+        name: 'Kurkure Crispy Fried Momos',
+        price: 160,
+        rating: 4.8,
+        isVeg: true,
+        isAvailable: true,
+        image: 'https://images.unsplash.com/photo-1541696432-82c6da8ce7bf?auto=format&fit=crop&w=400&q=80',
+        description: 'Crunchy cornflake coated fried momos served with garlic mayonnaise.'
+      },
+      {
+        id: 'prod-401',
+        vendorId: 'rest-4',
+        vendorName: 'Belgian Waffle Corner',
+        category: 'Waffles',
+        name: 'Triple Chocolate Belgian Waffle',
+        price: 175,
+        rating: 4.9,
+        isVeg: true,
+        isAvailable: true,
+        image: 'https://images.unsplash.com/photo-1562376552-0d160a2f238d?auto=format&fit=crop&w=400&q=80',
+        description: 'Fresh warm waffle smothered in dark, milk, and white melted Belgian chocolate.'
+      },
+      {
+        id: 'prod-103',
+        vendorId: 'rest-1',
+        vendorName: 'The Chennai Puff House',
+        category: 'Pav Specials',
+        name: 'Mumbai Butter Vada Pav (2 pcs)',
+        price: 70,
+        rating: 4.7,
+        isVeg: true,
+        isAvailable: true,
+        image: 'https://images.unsplash.com/photo-1606491956689-2ea866880c84?auto=format&fit=crop&w=400&q=80',
+        description: 'Soft pav loaded with garlic chutney, fried green chili, and hot potato vada.'
+      }
+    ];
+
+    // Global Application State
+    let state = {
+      role: 'customer', // 'customer' | 'vendor' | 'admin'
+      currentView: 'home', // 'home' | 'restaurants' | 'restaurant-detail' | 'categories' | 'checkout' | 'track-order' | 'auth' | 'profile'
+      selectedCategoryFilter: 'All',
+      selectedRestaurantId: null,
+      selectedLocation: 'T. Nagar, Chennai',
+      cart: [], // { product, quantity, spice, addons, instructions }
+      cartVendorId: null,
+      activeOrder: null, // Simulated live order tracking
+      modalSelectedItem: null,
+      modalQty: 1,
+      user: {
+        isLoggedIn: true,
+        name: 'Priya Sundaram',
+        phone: '+91 98401 23456',
+        email: 'priya.s@example.com',
+        address: 'Flat 3B, Rajeswari Apartments, South Boag Road, T. Nagar, Chennai - 600017'
+      },
+      ordersHistory: [
+        {
+          id: 'SB-8921',
+          date: 'Yesterday, 6:45 PM',
+          restaurant: 'The Chennai Puff House',
+          items: '2x Butter Veg Eggless Puff, 1x Paneer Tikka Puff',
+          total: 180,
+          status: 'Delivered'
+        }
+      ]
+    };
+
+    // ==========================================
+    // 2. CORE NAVIGATION & ROUTER
+    // ==========================================
+
+    function navigateTo(view, params = {}) {
+      state.currentView = view;
+      if (params.restaurantId) state.selectedRestaurantId = params.restaurantId;
+      if (params.category) state.selectedCategoryFilter = params.category;
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      renderApp();
+    }
+
+    function switchRole(role) {
+      state.role = role;
+      document.getElementById('current-role-label').innerText = role.toUpperCase() + ' VIEW';
+      
+      if (role === 'customer') state.currentView = 'home';
+      if (role === 'vendor') state.currentView = 'vendor-dash';
+      if (role === 'admin') state.currentView = 'admin-dash';
+
+      renderApp();
+    }
+
+    function setLocation(loc) {
+      state.selectedLocation = loc;
+      document.getElementById('current-location-text').innerHTML = `${loc} <i class="fa-solid fa-chevron-down text-[10px] text-gray-400"></i>`;
+      closeModal('location-modal');
+    }
+
+    // ==========================================
+    // 3. CART MANAGEMENT
+    // ==========================================
+
+    function openProductModal(productId) {
+      const product = SAMPLE_PRODUCTS.find(p => p.id === productId);
+      if (!product) return;
+
+      state.modalSelectedItem = product;
+      state.modalQty = 1;
+
+      document.getElementById('modal-item-title').innerText = product.name;
+      document.getElementById('modal-item-price').innerText = `₹${product.price}`;
+      document.getElementById('modal-item-restaurant').innerText = `by ${product.vendorName}`;
+      document.getElementById('modal-item-desc').innerText = product.description;
+      document.getElementById('modal-item-image').src = product.image;
+      document.getElementById('modal-qty').innerText = '1';
+      document.getElementById('modal-item-instructions').value = '';
+
+      updateModalPriceCalculation();
+      openModal('product-modal');
+    }
+
+    function updateModalQty(change) {
+      state.modalQty = Math.max(1, state.modalQty + change);
+      document.getElementById('modal-qty').innerText = state.modalQty;
+      updateModalPriceCalculation();
+    }
+
+    function updateModalPriceCalculation() {
+      if (!state.modalSelectedItem) return;
+      let base = state.modalSelectedItem.price;
+      const addCheese = document.getElementById('addon-cheese')?.checked;
+      const addDip = document.getElementById('addon-dip')?.checked;
+
+      if (addCheese) base += 30;
+      if (addDip) base += 20;
+
+      const total = base * state.modalQty;
+      document.getElementById('modal-total-btn-price').innerText = `₹${total}`;
+    }
+
+    function confirmAddToCart() {
+      const prod = state.modalSelectedItem;
+      if (!prod) return;
+
+      // Check single vendor policy rule
+      if (state.cart.length > 0 && state.cartVendorId !== prod.vendorId) {
+        if (!confirm(`Your basket contains items from "${state.cart[0].product.vendorName}". Clear your basket and add items from "${prod.vendorName}" instead?`)) {
+          return;
+        }
+        state.cart = [];
+      }
+
+      state.cartVendorId = prod.vendorId;
+
+      const spice = document.querySelector('input[name="spice"]:checked')?.value || 'Medium';
+      const addCheese = document.getElementById('addon-cheese')?.checked;
+      const addDip = document.getElementById('addon-dip')?.checked;
+      const instructions = document.getElementById('modal-item-instructions')?.value;
+
+      let itemPrice = prod.price;
+      let addonList = [];
+      if (addCheese) { itemPrice += 30; addonList.push('Extra Cheese'); }
+      if (addDip) { itemPrice += 20; addonList.push('Mint Dip'); }
+
+      state.cart.push({
+        id: Date.now(),
+        product: prod,
+        quantity: state.modalQty,
+        unitPrice: itemPrice,
+        spice,
+        addons: addonList,
+        instructions
+      });
+
+      closeModal('product-modal');
+      updateCartUI();
+      toggleCartDrawer(true);
+    }
+
+    function removeFromCart(cartItemId) {
+      state.cart = state.cart.filter(item => item.id !== cartItemId);
+      if (state.cart.length === 0) state.cartVendorId = null;
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const count = state.cart.reduce((acc, item) => acc + item.quantity, 0);
+      const subtotal = state.cart.reduce((acc, item) => acc + (item.unitPrice * item.quantity), 0);
+
+      document.getElementById('cart-count-badge').innerText = count;
+      document.getElementById('cart-btn-text').innerText = `₹${subtotal}`;
+
+      const container = document.getElementById('cart-items-container');
+      const vendorLabel = document.getElementById('cart-vendor-name');
+      const checkoutBtn = document.getElementById('cart-checkout-btn');
+
+      if (state.cart.length === 0) {
+        vendorLabel.innerText = 'No items added yet';
+        container.innerHTML = `
+          <div class="text-center py-12 text-gray-400 space-y-3">
+            <i class="fa-solid fa-basket-shopping text-5xl text-gray-200"></i>
+            <p class="font-bold text-sm text-gray-600">Your Basket is Empty</p>
+            <p class="text-xs">Explore Chennai's finest puffs, rolls, and momos!</p>
+          </div>
+        `;
+        checkoutBtn.disabled = true;
+      } else {
+        vendorLabel.innerText = `Ordering from ${state.cart[0].product.vendorName}`;
+        checkoutBtn.disabled = false;
+
+        container.innerHTML = state.cart.map(item => `
+          <div class="p-3 bg-brand-cream/60 rounded-2xl border border-orange-100/80 flex items-center justify-between gap-3">
+            <div class="flex-grow">
+              <h5 class="font-bold text-xs text-brand-brown">${item.product.name}</h5>
+              <p class="text-[10px] text-gray-500">₹${item.unitPrice} x ${item.quantity} ${item.addons.length ? '• ' + item.addons.join(', ') : ''}</p>
+              ${item.instructions ? `<p class="text-[9px] text-brand-orange font-semibold">Note: ${item.instructions}</p>` : ''}
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="font-extrabold text-xs text-brand-brown">₹${item.unitPrice * item.quantity}</span>
+              <button onclick="removeFromCart(${item.id})" class="text-red-400 hover:text-red-600 p-1">
+                <i class="fa-solid fa-trash-can text-xs"></i>
+              </button>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      // Calculation totals
+      const deliveryFee = subtotal > 0 ? 35 : 0;
+      const taxes = Math.round(subtotal * 0.05); // 5% GST
+      const grandTotal = subtotal + deliveryFee + taxes;
+
+      document.getElementById('cart-subtotal').innerText = `₹${subtotal}`;
+      document.getElementById('cart-delivery-fee').innerText = `₹${deliveryFee}`;
+      document.getElementById('cart-taxes').innerText = `₹${taxes}`;
+      document.getElementById('cart-grand-total').innerText = `₹${grandTotal}`;
+    }
+
+    function toggleCartDrawer(openForce) {
+      const drawer = document.getElementById('cart-drawer');
+      const panel = document.getElementById('cart-drawer-panel');
+
+      if (openForce === true || drawer.classList.contains('opacity-0')) {
+        drawer.classList.remove('opacity-0', 'pointer-events-none');
+        panel.classList.remove('translate-x-full');
+      } else {
+        drawer.classList.add('opacity-0', 'pointer-events-none');
+        panel.classList.add('translate-x-full');
+      }
+    }
+
+    function goToCheckout() {
+      if (state.cart.length === 0) return;
+      toggleCartDrawer(false);
+      navigateTo('checkout');
+    }
+
+    // ==========================================
+    // 4. VIEW RENDERERS (PAGES)
+    // ==========================================
+
+    function renderApp() {
+      const container = document.getElementById('app-container');
+
+      if (state.role === 'vendor') {
+        container.innerHTML = renderVendorDashboard();
+        return;
+      }
+      if (state.role === 'admin') {
+        container.innerHTML = renderAdminDashboard();
+        return;
+      }
+
+      // Customer Views
+      switch (state.currentView) {
+        case 'home':
+          container.innerHTML = renderHomePage();
+          break;
+        case 'restaurants':
+          container.innerHTML = renderRestaurantDiscoveryPage();
+          break;
+        case 'restaurant-detail':
+          container.innerHTML = renderRestaurantDetailPage();
+          break;
+        case 'categories':
+          container.innerHTML = renderCategoryPage();
+          break;
+        case 'checkout':
+          container.innerHTML = renderCheckoutPage();
+          break;
+        case 'track-order':
+          container.innerHTML = renderTrackOrderPage();
+          break;
+        case 'auth':
+          container.innerHTML = renderAuthPage();
+          break;
+        case 'profile':
+          container.innerHTML = renderProfilePage();
+          break;
+        default:
+          container.innerHTML = renderHomePage();
+      }
+    }
+
+    // VIEW 1: HOME PAGE
+    function renderHomePage() {
+      return `
+        <!-- HERO BANNER -->
+        <section class="relative bg-gradient-to-br from-brand-brown via-brand-brownLight to-black text-white overflow-hidden py-16 lg:py-24 px-4 sm:px-6 lg:px-8">
+          <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#FF5722_1px,transparent_1px)] [background-size:16px_16px]"></div>
+          <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+            
+            <div class="space-y-6">
+              <div class="inline-flex items-center gap-2 bg-brand-orange/20 border border-brand-orange/40 text-orange-300 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">
+                <i class="fa-solid fa-fire text-brand-orange"></i> Freshly Baked & Cooked in Chennai
+              </div>
+              <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
+                Every Craving. <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange to-amber-400">One Basket.</span>
+              </h1>
+              <p class="text-sm sm:text-base text-gray-300 max-w-lg font-normal leading-relaxed">
+                Hot flaky puffs, butter kathi rolls, steaming corn momos, and Belgian waffles delivered from Chennai's finest snack hubs to your doorstep in 30 minutes.
+              </p>
+
+              <!-- Search Bar -->
+              <div class="bg-white p-2 rounded-2xl shadow-xl flex items-center gap-2 max-w-md">
+                <i class="fa-solid fa-magnifying-glass text-gray-400 ml-3"></i>
+                <input type="text" id="home-search-input" placeholder="Search puffs, rolls, momos, bakery..." class="w-full text-gray-800 text-xs sm:text-sm font-medium focus:outline-none py-2">
+                <button onclick="handleHomeSearch()" class="bg-brand-orange hover:bg-brand-hoverOrange text-white text-xs font-bold px-5 py-3 rounded-xl transition shadow-md">
+                  Search
+                </button>
+              </div>
+
+              <div class="flex items-center gap-6 pt-2 text-xs font-semibold text-gray-300">
+                <div class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-emerald-400"></i> FSSAI Verified</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-bolt text-amber-400"></i> 30 Min Delivery</div>
+                <div class="flex items-center gap-2"><i class="fa-solid fa-tag text-orange-400"></i> Flat 20% OFF First Order</div>
+              </div>
+            </div>
+
+            <!-- Hero Photography Carousel / Cards -->
+            <div class="relative flex justify-center">
+              <div class="relative w-full max-w-md">
+                <div class="bg-gradient-to-tr from-brand-orange to-amber-500 rounded-3xl p-1 shadow-2xl transform rotate-2">
+                  <div class="bg-brand-brown rounded-[22px] overflow-hidden p-4 space-y-3">
+                    <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=600&q=80" alt="Snacks" class="w-full h-56 object-cover rounded-xl shadow">
+                    <div class="flex justify-between items-center text-white">
+                      <div>
+                        <h4 class="font-bold text-base">Butter Veg Eggless Puff</h4>
+                        <p class="text-xs text-amber-300">The Chennai Puff House • T. Nagar</p>
+                      </div>
+                      <span class="bg-brand-orange text-white text-sm font-black px-3 py-1 rounded-xl">₹45</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- CATEGORIES SECTION -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div class="flex justify-between items-end mb-6">
+            <div>
+              <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-brown">Explore Craving Categories</h2>
+              <p class="text-xs text-gray-500 mt-1">Handpicked snack varieties for your tea-time & midnight hunger</p>
+            </div>
+            <button onclick="navigateTo('categories')" class="text-brand-orange text-xs font-bold hover:underline flex items-center gap-1">
+              View All <i class="fa-solid fa-chevron-right text-[10px]"></i>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4">
+            ${CHENNAI_CATEGORIES.map(cat => `
+              <div onclick="selectCategory('${cat.name}'); navigateTo('categories')" class="bg-white rounded-2xl p-3 border border-orange-100 shadow-sm hover:shadow-md hover:border-brand-orange cursor-pointer transition transform hover:-translate-y-1 text-center group">
+                <div class="w-14 h-14 mx-auto rounded-full overflow-hidden mb-2 bg-brand-cream border border-orange-200">
+                  <img src="${cat.img}" alt="${cat.name}" class="w-full h-full object-cover group-hover:scale-110 transition duration-300">
+                </div>
+                <h4 class="font-extrabold text-xs text-brand-brown group-hover:text-brand-orange transition">${cat.name}</h4>
+              </div>
+            `).join('')}
+          </div>
+        </section>
+
+        <!-- FEATURED RESTAURANTS IN CHENNAI -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div class="flex justify-between items-end mb-6">
+            <div>
+              <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-brown">Top Rated Snack Hubs</h2>
+              <p class="text-xs text-gray-500 mt-1">Chennai's favorite verified bakeries & food corners</p>
+            </div>
+            <button onclick="navigateTo('restaurants')" class="text-brand-orange text-xs font-bold hover:underline">Explore All Restaurants</button>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            ${CHENNAI_RESTAURANTS.map(rest => `
+              <div onclick="navigateTo('restaurant-detail', {restaurantId: '${rest.id}'})" class="bg-white rounded-3xl overflow-hidden border border-orange-100 shadow-sm hover:shadow-xl transition duration-300 cursor-pointer group">
+                <div class="relative h-44 overflow-hidden bg-gray-100">
+                  <img src="${rest.banner}" alt="${rest.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                  <span class="absolute top-3 right-3 bg-white/90 backdrop-blur-md text-brand-brown text-[11px] font-bold px-2.5 py-1 rounded-full shadow-md flex items-center gap-1">
+                    <i class="fa-solid fa-star text-amber-500"></i> ${rest.rating} (${rest.reviewsCount})
+                  </span>
+                  <span class="absolute bottom-3 left-3 bg-brand-brown/80 backdrop-blur-md text-white text-[10px] font-medium px-2.5 py-1 rounded-lg">
+                    ⚡ ${rest.prepTime}
+                  </span>
+                </div>
+                <div class="p-4 space-y-2">
+                  <div class="flex items-center justify-between">
+                    <h3 class="font-extrabold text-brand-brown text-base group-hover:text-brand-orange transition">${rest.name}</h3>
+                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm" title="FSSAI Verified"></i>
+                  </div>
+                  <p class="text-xs text-gray-500 font-medium">${rest.locality}</p>
+                  <div class="flex flex-wrap gap-1 pt-1">
+                    ${rest.tags.map(tag => `<span class="bg-brand-cream text-brand-brownLight text-[10px] font-semibold px-2 py-0.5 rounded-md border border-orange-200/50">${tag}</span>`).join('')}
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </section>
+
+        <!-- POPULAR ITEMS GRID -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-brown mb-6">Trending Cravings Right Now</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            ${SAMPLE_PRODUCTS.map(prod => renderProductCard(prod)).join('')}
+          </div>
+        </section>
+      `;
+    }
+
+    // PRODUCT CARD COMPONENT
+    function renderProductCard(prod) {
+      return `
+        <div class="bg-white rounded-3xl p-4 border border-orange-100/80 shadow-sm hover:shadow-xl transition duration-300 flex flex-col justify-between group">
+          <div>
+            <div class="relative h-40 rounded-2xl overflow-hidden mb-3 bg-brand-cream">
+              <img src="${prod.image}" alt="${prod.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+              <span class="absolute top-2 left-2 bg-emerald-600 text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-md">
+                100% VEG
+              </span>
+            </div>
+            <div class="flex justify-between items-start gap-1">
+              <h4 class="font-extrabold text-sm text-brand-brown line-clamp-1">${prod.name}</h4>
+              <span class="font-black text-sm text-brand-orange">₹${prod.price}</span>
+            </div>
+            <p class="text-[11px] font-medium text-gray-400 mt-0.5">${prod.vendorName}</p>
+            <p class="text-[11px] text-gray-600 mt-2 line-clamp-2 leading-relaxed">${prod.description}</p>
+          </div>
+
+          <button onclick="openProductModal('${prod.id}')" class="mt-4 w-full bg-brand-cream hover:bg-brand-orange text-brand-brown hover:text-white border border-orange-200 hover:border-transparent font-bold text-xs py-2.5 rounded-xl transition duration-200 flex items-center justify-center gap-1.5 shadow-sm">
+            <i class="fa-solid fa-plus text-[10px]"></i> Add to Basket
+          </button>
+        </div>
+      `;
+    }
+
+    // VIEW 2: RESTAURANTS DISCOVERY
+    function renderRestaurantDiscoveryPage() {
+      return `
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div class="mb-8">
+            <h1 class="text-3xl font-extrabold text-brand-brown">Snack Restaurants in Chennai</h1>
+            <p class="text-xs text-gray-500 mt-1">Order directly from local bakeries, kathi roll hubs, and dumpling corners</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            ${CHENNAI_RESTAURANTS.map(rest => `
+              <div onclick="navigateTo('restaurant-detail', {restaurantId: '${rest.id}'})" class="bg-white rounded-3xl overflow-hidden border border-orange-100 shadow-sm hover:shadow-xl transition cursor-pointer p-4 flex gap-4 items-center">
+                <img src="${rest.banner}" alt="${rest.name}" class="w-28 h-28 object-cover rounded-2xl flex-shrink-0">
+                <div class="space-y-1.5 flex-grow">
+                  <div class="flex items-center justify-between">
+                    <h3 class="font-bold text-sm text-brand-brown">${rest.name}</h3>
+                    <span class="text-xs bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-md">★ ${rest.rating}</span>
+                  </div>
+                  <p class="text-xs text-gray-500">${rest.locality}</p>
+                  <p class="text-[10px] text-emerald-600 font-semibold">FSSAI: ${rest.fssai}</p>
+                  <div class="flex items-center justify-between pt-1 text-xs">
+                    <span class="text-gray-400">⚡ ${rest.prepTime}</span>
+                    <span class="font-bold text-brand-orange">View Menu →</span>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    // VIEW 3: CATEGORIES PAGE
+    function renderCategoryPage() {
+      const filteredProducts = state.selectedCategoryFilter === 'All'
+        ? SAMPLE_PRODUCTS
+        : SAMPLE_PRODUCTS.filter(p => p.category.toLowerCase() === state.selectedCategoryFilter.toLowerCase());
+
+      return `
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <h1 class="text-3xl font-extrabold text-brand-brown mb-6">Food Categories</h1>
+
+          <!-- Category Pills Filter -->
+          <div class="flex gap-2 overflow-x-auto pb-4 custom-scrollbar mb-8">
+            <button onclick="selectCategory('All')" class="px-5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition ${state.selectedCategoryFilter === 'All' ? 'bg-brand-orange text-white shadow-md' : 'bg-white border border-gray-200 text-gray-700 hover:bg-orange-50'}">
+              All Snacks
+            </button>
+            ${CHENNAI_CATEGORIES.map(cat => `
+              <button onclick="selectCategory('${cat.name}')" class="px-5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition ${state.selectedCategoryFilter.toLowerCase() === cat.name.toLowerCase() ? 'bg-brand-orange text-white shadow-md' : 'bg-white border border-gray-200 text-gray-700 hover:bg-orange-50'}">
+                ${cat.name}
+              </button>
+            `).join('')}
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            ${filteredProducts.length > 0
+              ? filteredProducts.map(prod => renderProductCard(prod)).join('')
+              : `<div class="col-span-full text-center py-12 text-gray-400">No products found in this category.</div>`
+            }
+          </div>
+        </div>
+      `;
+    }
+
+    function selectCategory(catName) {
+      state.selectedCategoryFilter = catName;
+      renderApp();
+    }
+
+    // VIEW 4: RESTAURANT DETAIL PAGE
+    function renderRestaurantDetailPage() {
+      const rest = CHENNAI_RESTAURANTS.find(r => r.id === state.selectedRestaurantId) || CHENNAI_RESTAURANTS[0];
+      const menuItems = SAMPLE_PRODUCTS.filter(p => p.vendorId === rest.id);
+
+      return `
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <!-- Restaurant Banner Header -->
+          <div class="relative bg-brand-brown text-white rounded-3xl overflow-hidden mb-8 shadow-xl">
+            <img src="${rest.banner}" alt="${rest.name}" class="w-full h-64 object-cover opacity-40">
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-brown via-brand-brown/60 to-transparent p-6 sm:p-8 flex flex-col justify-end">
+              <div class="flex justify-between items-end">
+                <div>
+                  <span class="bg-emerald-500/90 text-white text-[10px] font-bold px-2.5 py-1 rounded-md uppercase tracking-wider mb-2 inline-block">FSSAI Approved • License #${rest.fssai}</span>
+                  <h1 class="text-3xl sm:text-4xl font-extrabold">${rest.name}</h1>
+                  <p class="text-xs text-amber-200/80 mt-1">${rest.locality} • ₹${rest.costForTwo} for two</p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md p-3 rounded-2xl text-center border border-white/10">
+                  <span class="text-xl font-black text-amber-400">★ ${rest.rating}</span>
+                  <p class="text-[10px] text-gray-300 font-medium">${rest.reviewsCount}+ ratings</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Menu Section -->
+          <h2 class="text-2xl font-extrabold text-brand-brown mb-6">Menu & Specialties</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            ${menuItems.map(item => renderProductCard(item)).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    // VIEW 5: CHECKOUT PAGE
+    function renderCheckoutPage() {
+      const subtotal = state.cart.reduce((acc, item) => acc + (item.unitPrice * item.quantity), 0);
+      const deliveryFee = 35;
+      const taxes = Math.round(subtotal * 0.05);
+      const grandTotal = subtotal + deliveryFee + taxes;
+
+      return `
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <h1 class="text-3xl font-extrabold text-brand-brown mb-6">Checkout & Delivery</h1>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Form Section -->
+            <div class="lg:col-span-2 space-y-6">
+              
+              <!-- Delivery Address -->
+              <div class="bg-white p-6 rounded-3xl border border-orange-100 shadow-sm space-y-4">
+                <h3 class="font-extrabold text-brand-brown text-base flex items-center gap-2">
+                  <i class="fa-solid fa-location-dot text-brand-orange"></i> Delivery Location (Chennai)
+                </h3>
+                <div class="p-3 bg-brand-cream/60 rounded-2xl border border-orange-200/60 text-xs space-y-1">
+                  <p class="font-bold text-brand-brown">${state.user.name}</p>
+                  <p class="text-gray-600">${state.user.address}</p>
+                  <p class="text-gray-500 font-mono">${state.user.phone}</p>
+                </div>
+              </div>
+
+              <!-- Payment Gateway Integration Point -->
+              <div class="bg-white p-6 rounded-3xl border border-orange-100 shadow-sm space-y-4">
+                <h3 class="font-extrabold text-brand-brown text-base flex items-center gap-2">
+                  <i class="fa-solid fa-credit-card text-brand-orange"></i> Payment Method
+                </h3>
+
+                <div class="space-y-2">
+                  <label class="flex items-center justify-between p-3.5 rounded-2xl border border-brand-orange bg-orange-50/50 cursor-pointer">
+                    <span class="flex items-center gap-3">
+                      <input type="radio" name="payment" checked class="text-brand-orange">
+                      <div>
+                        <p class="font-bold text-xs text-brand-brown">UPI / QR Code / NetBanking (Razorpay Mock)</p>
+                        <p class="text-[10px] text-gray-500">Google Pay, PhonePe, Paytm, BHIM</p>
+                      </div>
+                    </span>
+                    <i class="fa-solid fa-qrcode text-brand-orange"></i>
+                  </label>
+
+                  <label class="flex items-center justify-between p-3.5 rounded-2xl border border-gray-200 cursor-pointer opacity-60">
+                    <span class="flex items-center gap-3">
+                      <input type="radio" name="payment" disabled class="text-brand-orange">
+                      <div>
+                        <p class="font-bold text-xs text-brand-brown">Cash on Delivery</p>
+                        <p class="text-[10px] text-gray-500">Currently disabled for express snack orders</p>
+                      </div>
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Right Summary Section -->
+            <div class="bg-white p-6 rounded-3xl border border-orange-100 shadow-sm h-fit space-y-4">
+              <h3 class="font-extrabold text-brand-brown text-base border-b border-gray-100 pb-3">Order Summary</h3>
+
+              <div class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar">
+                ${state.cart.map(item => `
+                  <div class="flex justify-between text-xs">
+                    <span class="text-gray-700">${item.quantity}x ${item.product.name}</span>
+                    <span class="font-bold text-brand-brown">₹${item.unitPrice * item.quantity}</span>
+                  </div>
+                `).join('')}
+              </div>
+
+              <div class="border-t border-gray-100 pt-3 space-y-1.5 text-xs text-gray-600">
+                <div class="flex justify-between"><span>Subtotal</span><span>₹${subtotal}</span></div>
+                <div class="flex justify-between"><span>Delivery</span><span>₹${deliveryFee}</span></div>
+                <div class="flex justify-between"><span>GST & Packaging</span><span>₹${taxes}</span></div>
+                <div class="flex justify-between text-base font-extrabold text-brand-brown pt-2 border-t border-dashed border-gray-200">
+                  <span>Grand Total</span>
+                  <span class="text-brand-orange">₹${grandTotal}</span>
+                </div>
+              </div>
+
+              <button onclick="placeOrder()" class="w-full bg-brand-orange hover:bg-brand-hoverOrange text-white font-extrabold py-3.5 rounded-2xl shadow-lg shadow-orange-500/20 transition">
+                Pay & Place Order (₹${grandTotal})
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function placeOrder() {
+      if (state.cart.length === 0) return;
+
+      const subtotal = state.cart.reduce((acc, item) => acc + (item.unitPrice * item.quantity), 0);
+      const deliveryFee = 35;
+      const taxes = Math.round(subtotal * 0.05);
+      const grandTotal = subtotal + deliveryFee + taxes;
+
+      // Create Active Order State
+      state.activeOrder = {
+        orderId: 'SB-' + Math.floor(100000 + Math.random() * 900000),
+        timePlaced: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        vendorName: state.cart[0].product.vendorName,
+        items: [...state.cart],
+        grandTotal,
+        statusStep: 1, // 1: Confirmed, 2: Kitchen Preparing, 3: Out for Delivery, 4: Delivered
+        riderName: 'Karthik V. (Chennai Express Rider)',
+        riderPhone: '+91 97910 88210'
+      };
+
+      // Add to History
+      state.ordersHistory.unshift({
+        id: state.activeOrder.orderId,
+        date: 'Just Now',
+        restaurant: state.activeOrder.vendorName,
+        items: state.cart.map(i => `${i.quantity}x ${i.product.name}`).join(', '),
+        total: grandTotal,
+        status: 'Preparing'
+      });
+
+      state.cart = [];
+      state.cartVendorId = null;
+      updateCartUI();
+
+      navigateTo('track-order');
+    }
+
+    // VIEW 6: LIVE ORDER TRACKING PAGE
+    function renderTrackOrderPage() {
+      if (!state.activeOrder) {
+        return `
+          <div class="max-w-md mx-auto py-20 text-center px-4">
+            <i class="fa-solid fa-route text-5xl text-gray-300 mb-4"></i>
+            <h2 class="font-extrabold text-xl text-brand-brown">No Active Order</h2>
+            <p class="text-xs text-gray-500 mt-1 mb-6">Place a delicious snack order to view real-time GPS tracking.</p>
+            <button onclick="navigateTo('home')" class="bg-brand-orange text-white font-bold text-xs px-6 py-3 rounded-xl shadow-md">
+              Order Snacks Now
+            </button>
+          </div>
+        `;
+      }
+
+      const ord = state.activeOrder;
+
+      return `
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+          <div class="bg-white rounded-3xl p-6 sm:p-8 border border-orange-100 shadow-xl space-y-8">
+            
+            <!-- Header -->
+            <div class="flex justify-between items-center border-b border-gray-100 pb-4">
+              <div>
+                <span class="text-[10px] font-bold bg-amber-100 text-amber-800 px-2.5 py-1 rounded-md uppercase">Live Delivery Tracking</span>
+                <h1 class="text-2xl font-extrabold text-brand-brown mt-1">Order #${ord.orderId}</h1>
+                <p class="text-xs text-gray-500">From ${ord.vendorName} • Placed at ${ord.timePlaced}</p>
+              </div>
+              <div class="text-right">
+                <span class="text-2xl font-black text-brand-orange">22 Mins</span>
+                <p class="text-[10px] text-gray-400 font-semibold">Estimated Arrival</p>
+              </div>
+            </div>
+
+            <!-- Milestone Steps Indicator -->
+            <div class="space-y-6">
+              <div class="relative flex items-center justify-between">
+                <div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-gray-200 -z-0"></div>
+                <div class="absolute left-0 top-1/2 -translate-y-1/2 h-1 bg-brand-orange transition-all duration-500 -z-0" style="width: ${(ord.statusStep - 1) * 33.3}%;"></div>
+
+                <div class="relative z-10 w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold ${ord.statusStep >= 1 ? 'bg-brand-orange text-white ring-4 ring-orange-100' : 'bg-gray-200 text-gray-500'}">
+                  <i class="fa-solid fa-receipt"></i>
+                </div>
+                <div class="relative z-10 w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold ${ord.statusStep >= 2 ? 'bg-brand-orange text-white ring-4 ring-orange-100' : 'bg-gray-200 text-gray-500'}">
+                  <i class="fa-solid fa-utensils"></i>
+                </div>
+                <div class="relative z-10 w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold ${ord.statusStep >= 3 ? 'bg-brand-orange text-white ring-4 ring-orange-100' : 'bg-gray-200 text-gray-500'}">
+                  <i class="fa-solid fa-motorcycle"></i>
+                </div>
+                <div class="relative z-10 w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold ${ord.statusStep >= 4 ? 'bg-brand-orange text-white ring-4 ring-orange-100' : 'bg-gray-200 text-gray-500'}">
+                  <i class="fa-solid fa-house-chimney"></i>
+                </div>
+              </div>
+
+              <div class="flex justify-between text-[11px] font-bold text-gray-600">
+                <span>Order Placed</span>
+                <span>Preparing</span>
+                <span>On the Way</span>
+                <span>Delivered</span>
+              </div>
+            </div>
+
+            <!-- Delivery Partner Information (Google Maps Integration Point) -->
+            <div class="p-4 bg-brand-cream rounded-2xl border border-orange-200/60 flex items-center justify-between">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-full bg-brand-orange text-white flex items-center justify-center font-bold text-lg">
+                  <i class="fa-solid fa-helmet-safety"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-xs text-brand-brown">${ord.riderName}</h4>
+                  <p class="text-[10px] text-gray-500">Delivery Partner • TVS Jupiter Rider</p>
+                </div>
+              </div>
+              <button onclick="alert('Calling rider at ${ord.riderPhone}')" class="p-2.5 bg-white text-brand-orange border border-orange-200 rounded-xl hover:bg-orange-50 font-bold text-xs flex items-center gap-1.5 shadow-sm">
+                <i class="fa-solid fa-phone"></i> Call Partner
+              </button>
+            </div>
+
+            <!-- Simulation Controls for Demo -->
+            <div class="bg-gray-50 p-4 rounded-2xl border border-gray-200 text-center space-y-2">
+              <p class="text-[10px] font-bold uppercase text-gray-400">Simulation Control (Advance Kitchen Status)</p>
+              <div class="flex justify-center gap-2">
+                <button onclick="advanceOrderStep(2)" class="px-3 py-1 bg-white border border-gray-300 rounded-lg text-xs font-semibold hover:bg-orange-50">1. Preparing</button>
+                <button onclick="advanceOrderStep(3)" class="px-3 py-1 bg-white border border-gray-300 rounded-lg text-xs font-semibold hover:bg-orange-50">2. Out For Delivery</button>
+                <button onclick="advanceOrderStep(4)" class="px-3 py-1 bg-emerald-600 text-white rounded-lg text-xs font-semibold">3. Delivered</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      `;
+    }
+
+    function advanceOrderStep(step) {
+      if (state.activeOrder) {
+        state.activeOrder.statusStep = step;
+        renderApp();
+      }
+    }
+
+    // VIEW 7: AUTHENTICATION PAGE
+    function renderAuthPage() {
+      return `
+        <div class="max-w-md mx-auto px-4 py-12">
+          <div class="bg-white rounded-3xl p-8 border border-orange-100 shadow-xl space-y-6">
+            <div class="text-center space-y-2">
+              <div class="w-12 h-12 bg-brand-orange rounded-2xl mx-auto flex items-center justify-center text-white text-xl">
+                <i class="fa-solid fa-basket-shopping"></i>
+              </div>
+              <h2 class="text-2xl font-extrabold text-brand-brown">Welcome to Snack Basket</h2>
+              <p class="text-xs text-gray-500">Sign in with your phone number to track orders and save addresses</p>
+            </div>
+
+            <form onsubmit="handleAuthSubmit(event)" class="space-y-4">
+              <div>
+                <label class="block text-xs font-bold text-brand-brown mb-1">Mobile Number</label>
+                <div class="flex gap-2">
+                  <span class="bg-gray-100 border border-gray-200 rounded-xl px-3 py-2 text-xs font-bold text-gray-600 flex items-center">+91</span>
+                  <input type="tel" required placeholder="98401 23456" class="flex-grow border border-gray-200 rounded-xl px-3 py-2 text-xs focus:ring-2 focus:ring-brand-orange outline-none">
+                </div>
+              </div>
+
+              <button type="submit" class="w-full bg-brand-orange hover:bg-brand-hoverOrange text-white font-bold py-3 rounded-xl shadow-lg shadow-orange-500/20 transition text-xs">
+                Send OTP Verification
+              </button>
+            </form>
+          </div>
+        </div>
+      `;
+    }
+
+    function handleAuthSubmit(e) {
+      e.preventDefault();
+      state.user.isLoggedIn = true;
+      navigateTo('home');
+    }
+
+    // VIEW 8: CUSTOMER PROFILE & ORDERS HISTORY
+    function renderProfilePage() {
+      return `
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
+          <div class="bg-white rounded-3xl p-6 border border-orange-100 shadow-sm flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <div class="w-16 h-16 rounded-full bg-brand-orange/10 border-2 border-brand-orange text-brand-orange flex items-center justify-center text-2xl font-bold">
+                ${state.user.name.charAt(0)}
+              </div>
+              <div>
+                <h2 class="text-xl font-extrabold text-brand-brown">${state.user.name}</h2>
+                <p class="text-xs text-gray-500">${state.user.phone} • ${state.user.email}</p>
+                <p class="text-[11px] text-gray-400 mt-0.5">${state.user.address}</p>
+              </div>
+            </div>
+            <button onclick="state.user.isLoggedIn = false; navigateTo('home')" class="text-xs text-red-500 font-bold hover:underline">Log Out</button>
+          </div>
+
+          <!-- Order History -->
+          <div class="space-y-4">
+            <h3 class="text-xl font-extrabold text-brand-brown">Previous Snack Orders</h3>
+            
+            <div class="space-y-3">
+              ${state.ordersHistory.map(order => `
+                <div class="bg-white rounded-2xl p-4 border border-orange-100 shadow-sm flex flex-col sm:flex-row justify-between sm:items-center gap-3">
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <span class="font-bold text-xs text-brand-brown">${order.restaurant}</span>
+                      <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-md">${order.status}</span>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">${order.items}</p>
+                    <p class="text-[10px] text-gray-400 mt-0.5">${order.date} • Order ID: ${order.id}</p>
+                  </div>
+                  <div class="text-right flex sm:flex-col justify-between items-center sm:items-end border-t sm:border-0 border-gray-100 pt-2 sm:pt-0">
+                    <span class="font-extrabold text-sm text-brand-orange">₹${order.total}</span>
+                    <button onclick="navigateTo('home')" class="text-[11px] font-bold text-brand-brown hover:text-brand-orange underline">Reorder Items</button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ==========================================
+    // 5. VENDOR DASHBOARD PANEL
+    // ==========================================
+    function renderVendorDashboard() {
+      return `
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+          <!-- Vendor Header -->
+          <div class="bg-gradient-to-r from-brand-brown to-brand-brownLight text-white p-6 rounded-3xl flex justify-between items-center shadow-lg">
+            <div>
+              <span class="bg-amber-400 text-brand-brown text-[10px] font-black px-2.5 py-1 rounded-md uppercase">Vendor Portal</span>
+              <h1 class="text-2xl font-black mt-1">The Chennai Puff House</h1>
+              <p class="text-xs text-amber-200/80">FSSAI Lic: 12421020000189 • Outlet: T. Nagar, Chennai</p>
+            </div>
+            <div class="flex gap-3">
+              <span class="bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-xl flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span> Outlet Open & Accepting Orders
+              </span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Active Kitchen Orders Queue -->
+            <div class="lg:col-span-2 space-y-4">
+              <h2 class="text-lg font-extrabold text-brand-brown flex items-center justify-between">
+                <span><i class="fa-solid fa-bell text-brand-orange"></i> Live Kitchen Orders</span>
+                <span class="text-xs bg-brand-orange text-white font-bold px-2.5 py-0.5 rounded-full">1 New</span>
+              </h2>
+
+              <div class="bg-white p-5 rounded-3xl border border-orange-100 shadow-sm space-y-4">
+                <div class="flex justify-between items-start border-b border-gray-100 pb-3">
+                  <div>
+                    <span class="font-extrabold text-sm text-brand-brown">Order #SB-99321</span>
+                    <p class="text-xs text-gray-500">Customer: Priya S. (T. Nagar)</p>
+                  </div>
+                  <span class="text-xs font-extrabold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-lg">PAID ₹180</span>
+                </div>
+
+                <div class="space-y-1 text-xs text-gray-700">
+                  <p>• 2x Butter Veg Eggless Puff (₹90)</p>
+                  <p>• 1x Paneer Tikka Puff Supreme (₹65)</p>
+                  <p class="text-[10px] text-brand-orange font-bold">Special Note: Extra crispy puffs please</p>
+                </div>
+
+                <div class="flex gap-2 pt-2">
+                  <button class="flex-grow bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-2.5 rounded-xl transition">
+                    Mark Food Prepared
+                  </button>
+                  <button class="px-4 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs py-2.5 rounded-xl transition">
+                    Reject
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Menu Management & Revenue Overview -->
+            <div class="space-y-6">
+              <div class="bg-white p-5 rounded-3xl border border-orange-100 shadow-sm space-y-4">
+                <h3 class="font-extrabold text-brand-brown text-sm">Today's Revenue Summary</h3>
+                <div class="grid grid-cols-2 gap-3 text-center">
+                  <div class="bg-brand-cream p-3 rounded-2xl border border-orange-100">
+                    <p class="text-xs text-gray-500 font-medium">Net Sales</p>
+                    <p class="font-black text-lg text-brand-orange">₹4,280</p>
+                  </div>
+                  <div class="bg-brand-cream p-3 rounded-2xl border border-orange-100">
+                    <p class="text-xs text-gray-500 font-medium">Orders</p>
+                    <p class="font-black text-lg text-brand-brown">24</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Menu Availability Toggle -->
+              <div class="bg-white p-5 rounded-3xl border border-orange-100 shadow-sm space-y-3">
+                <h3 class="font-extrabold text-brand-brown text-sm">Quick Menu Stock Toggle</h3>
+                <div class="space-y-2 text-xs">
+                  <div class="flex justify-between items-center p-2 rounded-xl border border-gray-100">
+                    <span>Butter Veg Eggless Puff</span>
+                    <input type="checkbox" checked class="text-brand-orange rounded">
+                  </div>
+                  <div class="flex justify-between items-center p-2 rounded-xl border border-gray-100">
+                    <span>Paneer Tikka Puff Supreme</span>
+                    <input type="checkbox" checked class="text-brand-orange rounded">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ==========================================
+    // 6. SUPER ADMIN DASHBOARD
+    // ==========================================
+    function renderAdminDashboard() {
+      return `
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+          <div class="flex justify-between items-center">
+            <div>
+              <h1 class="text-3xl font-black text-brand-brown">Super Admin Command Center</h1>
+              <p class="text-xs text-gray-500">Platform Analytics • Vendor Approvals • Chennai Marketplace Operations</p>
+            </div>
+            <button onclick="openModal('db-schema-modal')" class="bg-purple-900 text-white text-xs font-bold px-4 py-2 rounded-xl shadow">
+              <i class="fa-solid fa-database mr-1"></i> View PostgreSQL Schema
+            </button>
+          </div>
+
+          <!-- KPI Cards -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-white p-5 rounded-3xl border border-orange-100 shadow-sm">
+              <p class="text-xs text-gray-400 font-medium uppercase">Total GMV (Month)</p>
+              <p class="text-2xl font-black text-brand-orange mt-1">₹3,42,800</p>
+            </div>
+            <div class="bg-white p-5 rounded-3xl border border-orange-100 shadow-sm">
+              <p class="text-xs text-gray-400 font-medium uppercase">Platform Commission (15%)</p>
+              <p class="text-2xl font-black text-emerald-600 mt-1">₹51,420</p>
+            </div>
+            <div class="bg-white p-5 rounded-3xl border border-orange-100 shadow-sm">
+              <p class="text-xs text-gray-400 font-medium uppercase">Active Chennai Vendors</p>
+              <p class="text-2xl font-black text-brand-brown mt-1">18</p>
+            </div>
+            <div class="bg-white p-5 rounded-3xl border border-orange-100 shadow-sm">
+              <p class="text-xs text-gray-400 font-medium uppercase">Total Deliveries</p>
+              <p class="text-2xl font-black text-brand-brown mt-1">1,890</p>
+            </div>
+          </div>
+
+          <!-- Vendor Approval & Verification Queue -->
+          <div class="bg-white p-6 rounded-3xl border border-orange-100 shadow-sm space-y-4">
+            <h3 class="font-extrabold text-brand-brown text-base">Pending Vendor Verification (FSSAI Compliance)</h3>
+            
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs">
+                <thead>
+                  <tr class="border-b border-gray-100 text-gray-400 font-bold uppercase">
+                    <th class="py-2">Restaurant</th>
+                    <th>Locality</th>
+                    <th>FSSAI License No.</th>
+                    <th>Commission Rate</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50 text-brand-brown font-medium">
+                  <tr>
+                    <td class="py-3 font-bold">Nungambakkam Waffle Hub</td>
+                    <td>Nungambakkam</td>
+                    <td class="font-mono text-gray-500">12421020000881</td>
+                    <td>15.00%</td>
+                    <td>
+                      <button onclick="alert('Vendor Approved & Verified!')" class="bg-emerald-600 text-white px-3 py-1 rounded-lg text-[10px] font-bold">Approve</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ==========================================
+    // 7. HELPER UTILITIES & INITIALIZATION
+    // ==========================================
+
+    function handleHomeSearch() {
+      const q = document.getElementById('home-search-input')?.value;
+      if (q) {
+        state.selectedCategoryFilter = q;
+        navigateTo('categories');
+      }
+    }
+
+    function openLocationModal() { openModal('location-modal'); }
+
+    function openModal(modalId) {
+      const el = document.getElementById(modalId);
+      if (el) {
+        el.classList.remove('hidden');
+        el.classList.add('flex');
+      }
+    }
+
+    function closeModal(modalId) {
+      const el = document.getElementById(modalId);
+      if (el) {
+        el.classList.add('hidden');
+        el.classList.remove('flex');
+      }
+    }
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    // ON DOM LOAD INITIALIZATION
+    window.onload = function() {
+      updateCartUI();
+      renderApp();
+    };
+  </script>
+</body>
+</html>
